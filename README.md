@@ -1,5 +1,5 @@
-j2
-==
+ninja2
+======
 
 jinja2 command line client
 
