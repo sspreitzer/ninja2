@@ -5,6 +5,7 @@ setup(
       version = '0.1',
       description = 'Jinja2 command line client',
       url = 'https://github.com/sspreitzer/j2',
+      download_url = 'https://github.com/sspreitzer/j2/tarball/0.1',
       author = 'Sascha Spreitzer',
       author_email = 'sascha@spreitzer.ch',
       license = 'MIT',
