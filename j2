@@ -48,25 +48,25 @@ def renderyaml(t, y):
 
 def main():
 	try:
-		opts, args = getopt.getopt(sys.argv[1:], 'ej:y:')
+		opts, args = getopt.getopt(sys.argv[1:], 'e:j:y:')
 		for opt, arg in opts:
 			if opt == '-e':
-				print renderenv(sys.stdin.read())
+				print renderenv(open(arg).read())
 			elif opt == '-j':
-				print renderjson(sys.stdin.read(), open(arg).read())
+				print renderjson(open(arg).read(), sys.stdin.read())
 			elif opt == '-y':
 				if YAML:
-					print renderyaml(sys.stdin.read(), open(arg).read())
+					print renderyaml(open(arg).read(), sys.stdin.read())
 				else:
 					print "yaml not supported - install pyyaml"
 					sys.exit(3)
 	except getopt.GetoptError:
-		print "j2 [-e | -j vars.json | -y vars.yml]"
+		print "j2 <-e | -j | -y> template.j2"
 		print "    -e render from environment"
 		print "    -j render from json file"
 		print "    -y render from yaml file"
 		print ""
-		print "  read a jinja2 template from stdin and values from"
+		print "  read a jinja2 template from file and values from stdin"
 		print "  either environment or json or yaml"
 		print "  (c) 2015 Sascha Spreitzer, MIT License"
 		sys.exit(2)
