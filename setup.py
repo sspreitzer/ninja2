@@ -10,7 +10,7 @@ setup(
       author_email = 'sascha@spreitzer.ch',
       license = 'MIT',
       classifiers = [
-                     'Development Status :: 2 - Beta',
+                     'Development Status :: 4 - Beta',
                      'Programming Language :: Python :: 2',
                      ],
       keywords = 'j2 jinja2 python json yaml',
