@@ -13,8 +13,8 @@ Usage
 -----
 
 ```
-$ j2 -h
-j2 <-e | -j | -y> template.j2
+$ ninja2 -h
+ninja2 <-e | -j | -y> template.j2
     -e render from environment
     -j render from json file
     -y render from yaml file
@@ -27,18 +27,18 @@ j2 <-e | -j | -y> template.j2
 Render from environment
 -----------------------
 ```
-sspreitzer@s900x3c:~/git/j2⟫ cat test.j2 
+sspreitzer@s900x3c:~/git/ninja2⟫ cat test.j2 
 {{ USER }}
-sspreitzer@s900x3c:~/git/j2⟫ ./j2 -e test.j2 
+sspreitzer@s900x3c:~/git/ninja2⟫ ./ninja2 -e test.j2 
 sspreitzer
 ```
 
 Render from json
 ----------------
 ```
-sspreitzer@s900x3c:~/git/j2⟫ cat test.json 
+sspreitzer@s900x3c:~/git/ninja2⟫ cat test.json 
 { "USER": "json-user" }
-sspreitzer@s900x3c:~/git/j2⟫ ./j2 -j test.j2 < test.json
+sspreitzer@s900x3c:~/git/ninja2⟫ ./ninja2 -j test.j2 < test.json
 json-user
 ```
 
@@ -46,9 +46,9 @@ Render from yaml
 ----------------
 Pyyaml must be installed
 ```
-sspreitzer@s900x3c:~/git/j2⟫ cat test.yaml 
+sspreitzer@s900x3c:~/git/ninja2⟫ cat test.yaml 
 ---
 USER: yaml-user
-sspreitzer@s900x3c:~/git/j2⟫ ./j2 -y test.j2 < test.yaml
+sspreitzer@s900x3c:~/git/ninja2⟫ ./ninja2 -y test.j2 < test.yaml
 yaml-user
 ```

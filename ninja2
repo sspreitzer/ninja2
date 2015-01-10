@@ -61,7 +61,7 @@ def main():
 					print "yaml not supported - install pyyaml"
 					sys.exit(3)
 	except getopt.GetoptError:
-		print "j2 <-e | -j | -y> template.j2"
+		print "ninja2 <-e | -j | -y> template.j2"
 		print "    -e render from environment"
 		print "    -j render from json file"
 		print "    -y render from yaml file"
