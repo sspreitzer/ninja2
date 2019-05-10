@@ -28,6 +28,7 @@ import sys
 import os
 import getopt
 import json
+import argparse
 
 try:
 	import yaml
@@ -35,42 +36,60 @@ try:
 except:
 	YAML=False
 
-from jinja2 import Template
+
+from jinja2 import Template,Environment
+
 
 def renderenv(t):
-	return Template(t).render(os.environ)
+	global base_env
+	return base_env.from_string(t).render(os.environ)
 
 def renderjson(t, j):
-	return Template(t).render(json.loads(j))
+	global base_env
+	return base_env.from_string(t).render(json.loads(j))
 
 def renderyaml(t, y):
-	return Template(t).render(yaml.load(y))
+	global base_env
+	return base_env.get_template(t).render(yaml.load(y))
+
+
 
 def main():
+	global base_env
+
+	# parsing command line
+	# parser = argparse.ArgumentParser(description='ninja2 <-e | -j | -y> template.j2')
+	parser = argparse.ArgumentParser( formatter_class=argparse.RawDescriptionHelpFormatter, 
+                               description='read a jinja2 template from file and values from stdin either environment or json or yaml',
+                               epilog='(c) 2015 Sascha Spreitzer, MIT License' )
+	parser.add_argument('-V','--version', action='version', version='%(prog)s 0.2')
+	agr_group = parser.add_mutually_exclusive_group(required=True)
+	agr_group.add_argument('-e','--env',help = "render from environment",action='store_true')
+	agr_group.add_argument('-j','--json',help = "render from json file",action='store_true')
+	agr_group.add_argument('-y','--yaml',help = "render from yaml file",action='store_true')
+	parser.add_argument('-l','--load',help = "load Jinja2 extentions, can be repeated",choices=['i18n','do','loopcontrols'],action='append')
+	parser.add_argument('input_file',metavar='template.j2',help = "File with Jinja2 template",type=argparse.FileType('r'))
+
+	args = parser.parse_args()
+
+	if args.load:
+		base_env = Environment(extensions=[ 'jinja2.ext.'+ element for element in args.load ])
+	else:
+		base_env = Environment()
+
 	try:
-		opts, args = getopt.getopt(sys.argv[1:], 'e:j:y:')
-		for opt, arg in opts:
-			if opt == '-e':
-				print renderenv(open(arg).read())
-			elif opt == '-j':
-				print renderjson(open(arg).read(), sys.stdin.read())
-			elif opt == '-y':
-				if YAML:
-					print renderyaml(open(arg).read(), sys.stdin.read())
-				else:
-					print "yaml not supported - install pyyaml"
-					sys.exit(3)
+		if args.env:
+			print(renderenv(args.input_file.read()))
+		elif args.json:
+			print(renderjson(args.input_file.read(), sys.stdin.read()))
+		elif args.yaml:
+			if YAML:
+				print(renderyaml(args.input_file.read(), sys.stdin.read()))
+			else:
+				print("yaml not supported - install pyyaml")
+				sys.exit(3)
 	except getopt.GetoptError:
-		print "ninja2 <-e | -j | -y> template.j2"
-		print "    -e render from environment"
-		print "    -j render from json file"
-		print "    -y render from yaml file"
-		print ""
-		print "  read a jinja2 template from file and values from stdin"
-		print "  either environment or json or yaml"
-		print "  (c) 2015 Sascha Spreitzer, MIT License"
 		sys.exit(2)
 
 if __name__=="__main__":
 	main()
-
