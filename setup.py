@@ -12,11 +12,11 @@ setup(
       classifiers = [
                      'Environment :: Console',
                      'License :: OSI Approved :: MIT License',
-                     'Operating System :: OS Independent",
+                     'Operating System :: OS Independent',
                      'Development Status :: 4 - Beta',
                      'Programming Language :: Python :: 2',
                      'Programming Language :: Python :: 3',
-                     'Topic :: Utilities",
+                     'Topic :: Utilities'
                      ],
       keywords = 'ninja2 jinja2 python json yaml',
       install_requires = ['Jinja2'],
